@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkliste</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.3.2/uuid.min.js"></script>
+  <script src="auth.js"></script>
+  <style>
+    .checklist-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .checklist-item {
+      transition: all 0.3s ease;
+    }
+    .checklist-item:hover {
+      transform: translateX(8px);
+    }
+    .checklist-item.completed {
+      animation: fadeOut 0.5s ease forwards;
+    }
+    .checklist-item.completed .text {
+      animation: strikeThrough 0.3s ease forwards;
+    }
+    .checklist-item.new {
+      animation: slideIn 0.3s ease forwards;
+    }
+    @keyframes strikeThrough {
+      to {
+        text-decoration: line-through;
+        color: #9CA3AF;
+      }
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    .priority-badge {
+      transition: all 0.3s ease;
+    }
+    .priority-high {
+      background-color: #FEE2E2;
+      color: #DC2626;
+    }
+    .priority-medium {
+      background-color: #FEF3C7;
+      color: #D97706;
+    }
+    .priority-low {
+      background-color: #DCFCE7;
+      color: #16A34A;
+    }
+    .category-tag {
+      transition: all 0.3s ease;
+    }
+    .category-tag:hover {
+      transform: scale(1.05);
+    }
+    /* New styles for select fields */
+    .select-field {
+      min-width: 200px;
+      padding: 0.5rem 2.5rem 0.5rem 1rem;
+      font-size: 1rem;
+      line-height: 1.5;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+      background-position: right 0.5rem center;
+      background-repeat: no-repeat;
+      background-size: 1.5em 1.5em;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+    }
+    .select-field option {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-gray-100" onload="checkProjectAuth()">
+  <div class="min-h-screen p-6">
+    <div class="checklist-container">
+      <div class="flex justify-between items-center mb-8">
+        <h1 id="checklist-title" class="text-3xl font-bold text-gray-800"></h1>
+        <div class="flex gap-4">
+          <button onclick="window.location.href='index.html'" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg">
+            Zurück zur Übersicht
+          </button>
+          <button onclick="addCategory()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg">
+            + Neue Kategorie
+          </button>
+          <button onclick="addItem()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
+            + Neue Aufgabe
+          </button>
+        </div>
+      </div>
+
+      <div class="mb-6 flex flex-wrap gap-2" id="categories-container">
+        <!-- Categories will be added here -->
+      </div>
+
+      <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="mb-4 flex items-center gap-4">
+          <input type="text" id="new-item" placeholder="Neue Aufgabe..." 
+                 class="flex-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+          <select id="priority-select" class="select-field border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+            <option value="low">Niedrig</option>
+            <option value="medium">Mittel</option>
+            <option value="high">Hoch</option>
+          </select>
+          <select id="category-select" class="select-field border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+            <!-- Categories will be added here -->
+          </select>
+        </div>
+        
+        <div id="checklist-items" class="space-y-3">
+          <!-- Checklist items will be added here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="checklist.js"></script>
+</body>
+</html> 
